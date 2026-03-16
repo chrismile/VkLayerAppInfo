@@ -53,6 +53,15 @@ configure_file(
         "${CMAKE_CURRENT_BINARY_DIR}/VkLayer_appinfo.json"
 )
 
+# Copy to Debug/Release/... build directory.
+get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if (${IS_MULTI_CONFIG})
+    add_custom_command(TARGET VkLayer_appinfo
+            POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_BINARY_DIR}/VkLayer_appinfo.json"
+            "$<TARGET_FILE_DIR:VkLayer_appinfo>")
+endif()
+
 install(
         FILES "${CMAKE_CURRENT_BINARY_DIR}/VkLayer_appinfo.json"
         DESTINATION ${CMAKE_INSTALL_PREFIX}
