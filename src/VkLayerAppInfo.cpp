@@ -169,20 +169,15 @@ VK_LAYER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL AppInfoLayer_CreateInstance(
     dispatchTable.EnumerateDeviceExtensionProperties = (PFN_vkEnumerateDeviceExtensionProperties)pGetInstanceProcAddr(
             *pInstance, "vkEnumerateDeviceExtensionProperties");
 
-#ifdef _WIN32
-    #define LF "\r\n"
-#else
-    #define LF "\n"
-#endif
     const VkApplicationInfo* pApplicationInfo = pCreateInfo->pApplicationInfo;
     std::string applicationInfoString;
-    applicationInfoString += std::string() + "Application name: " + pApplicationInfo->pApplicationName + LF;
-    applicationInfoString += std::string() + "Application version: " + std::to_string(pApplicationInfo->applicationVersion) + LF;
-    applicationInfoString += std::string() + "Application version as Vulkan version: " + parseVulkanVersion(pApplicationInfo->applicationVersion) + LF;
-    applicationInfoString += std::string() + "Engine name: " + pApplicationInfo->pEngineName + LF;
-    applicationInfoString += std::string() + "Engine version: " + std::to_string(pApplicationInfo->engineVersion) + LF;
-    applicationInfoString += std::string() + "Engine as Vulkan version: " + parseVulkanVersion(pApplicationInfo->engineVersion) + LF;
-    applicationInfoString += std::string() + "API version: " + parseVulkanApiVersion(pApplicationInfo->apiVersion) + LF;
+    applicationInfoString += std::string() + "Application name: " + pApplicationInfo->pApplicationName + "\n";
+    applicationInfoString += std::string() + "Application version: " + std::to_string(pApplicationInfo->applicationVersion) + "\n";
+    applicationInfoString += std::string() + "Application version as Vulkan version: " + parseVulkanVersion(pApplicationInfo->applicationVersion) + "\n";
+    applicationInfoString += std::string() + "Engine name: " + pApplicationInfo->pEngineName + "\n";
+    applicationInfoString += std::string() + "Engine version: " + std::to_string(pApplicationInfo->engineVersion) + "\n";
+    applicationInfoString += std::string() + "Engine as Vulkan version: " + parseVulkanVersion(pApplicationInfo->engineVersion) + "\n";
+    applicationInfoString += std::string() + "API version: " + parseVulkanApiVersion(pApplicationInfo->apiVersion) + "\n";
     std::cout << applicationInfoString;
 
     /*
@@ -203,7 +198,7 @@ VK_LAYER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL AppInfoLayer_CreateInstance(
         vkuGetLayerSettingValue(layerSettingSet, settingKeyAppInfoOutputPath, outputPathString);
         std::ofstream outfile(outputPathString.c_str(), std::ofstream::out | std::ofstream::app);
         if (outfile.is_open()) {
-            outfile << applicationInfoString << LF;
+            outfile << applicationInfoString << "\n";
             outfile.close();
         } else {
             std::cerr << "Could not open output file: " << outputPathString << std::endl;
