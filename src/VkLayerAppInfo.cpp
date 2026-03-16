@@ -201,9 +201,9 @@ VK_LAYER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL AppInfoLayer_CreateInstance(
     if (vkuHasLayerSetting(layerSettingSet, settingKeyAppInfoOutputPath)) {
         std::string outputPathString;
         vkuGetLayerSettingValue(layerSettingSet, settingKeyAppInfoOutputPath, outputPathString);
-        std::ofstream outfile(outputPathString.c_str(), std::ofstream::out);
+        std::ofstream outfile(outputPathString.c_str(), std::ofstream::out | std::ofstream::app);
         if (outfile.is_open()) {
-            outfile << outputPathString;
+            outfile << applicationInfoString << LF;
             outfile.close();
         } else {
             std::cerr << "Could not open output file: " << outputPathString << std::endl;
