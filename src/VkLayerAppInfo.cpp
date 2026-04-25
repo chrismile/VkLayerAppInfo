@@ -216,7 +216,9 @@ VK_LAYER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL AppInfoLayer_CreateInstance(
 VK_LAYER_EXPORT VKAPI_ATTR void VKAPI_CALL AppInfoLayer_DestroyInstance(
         VkInstance instance, const VkAllocationCallbacks* pAllocator) {
     scoped_lock l(globalMutex);
+    auto pDestroyInstance = instanceDispatchTables[getDispatchKey(instance)].DestroyInstance;
     instanceDispatchTables.erase(getDispatchKey(instance));
+    pDestroyInstance(instance, pAllocator);
 }
 
 
@@ -262,7 +264,9 @@ VK_LAYER_EXPORT VKAPI_ATTR VkResult VKAPI_CALL AppInfoLayer_CreateDevice(
 VK_LAYER_EXPORT VKAPI_ATTR void VKAPI_CALL AppInfoLayer_DestroyDevice(
         VkDevice device, const VkAllocationCallbacks* pAllocator) {
     scoped_lock l(globalMutex);
+    auto pDestroyDevice = deviceDispatchTables[getDispatchKey(device)].DestroyDevice;
     deviceDispatchTables.erase(getDispatchKey(device));
+    pDestroyDevice(device, pAllocator);
 }
 
 
